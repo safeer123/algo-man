@@ -1,0 +1,24 @@
+---> useful GIT commands
+
+git init
+/* initiate a local git repo */
+
+git add <file>
+/* stage a file */
+
+git rm --cached <file>
+/* unstage */
+
+git status
+/* see local changes pending to mommit */
+
+git log
+/* see commit log */
+
+git remote add origin <url>
+/* adds a remote repo */
+
+git pull
+/* pull changes branches and pull current branch from remote */
+
+
