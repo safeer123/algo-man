@@ -8,75 +8,92 @@ Notice that the solution set must not contain duplicate triplets.
 
 */
 
-const threeSum1 = (nums) => {
-    const lookup = {};
-    for(let i = 0; i < nums.length; i += 1) {
-        lookup[nums[i]] = lookup[nums[i]] || [];
-        lookup[nums[i]].push(i);
-    }
-
-    const resultIndexArr = []
-    for(let i = 0; i < nums.length; i += 1) {
-        for(let j = i+1; j < nums.length; j += 1) {
-            const pairSum = nums[i] + nums[j];
-            // look for -pairSum in the lookup
-            if(lookup[-pairSum]) {
-                const found = lookup[-pairSum].find(k => (k !== i && k !== j));
-                if(typeof found !== 'undefined') {
-                    resultIndexArr.push([i, j, found]);
+const threeSum2 = function(nums) {
+    if(nums.length > 2) {
+        const res = [];
+        nums.sort((a,b) => a-b);
+        let prevVal;
+        console.log(nums);
+        for(let i = 0; i < nums.length; i += 1) {
+            if(prevVal === nums[i]) continue;
+            let j = i + 1;
+            let k = nums.length - 1;
+            while(k > j) {
+                // console.log([nums[i] , nums[j] , nums[k]])
+                const sum = nums[i] + nums[j] + nums[k];
+                const currentVal_j = nums[j];
+                const currentVal_k = nums[k];
+                if(sum === 0) {
+                    res.push([nums[i] , nums[j] , nums[k]]);
+                    while(k > j && currentVal_j === nums[j]) {
+                        j += 1;   
+                    }
+                    while(k > j && currentVal_k === nums[k]) {
+                       k -= 1;  
+                    }
+                } else if (sum < 0) {
+                    
+                    while(k > j && currentVal_j === nums[j]) {
+                        j += 1;   
+                    }
+                } else {
+                     
+                    while(k > j && currentVal_k === nums[k]) {
+                       k -= 1;  
+                    }
                 }
             }
+            prevVal = nums[i];
         }
+        return res;
     }
-
-    const dupCheckHash = {};
-    const result = resultIndexArr.filter(
-        list => {
-            list.sort();
-            const key = list.join("|");
-            if(dupCheckHash[key]) return false;
-            return true;
-        }
-    ).map(
-        list => {
-            return list.map(i => nums[i]);
-        }
-    );
-    return result;
-}
-
-var threeSum = function(nums) {
-    
-    const searchPartners = (list, sum, count) => {
-        //console.log(list, sum, count)
-        if(count === 0 && sum === 0) return [[]];
-        if(count === 0 && sum !== 0) return [];
-        if(list.length === 0) {
-            return [];
-        }
-
-        const result = [];
-        const dupCheck = {};
-        for(let i = 0; i < list.length; i+=1) {
-            const remList = list.slice(i + 1, list.length - i);
-            // console.log(remList)
-            if(!dupCheck[list[i]]) {
-                const res = searchPartners(remList, sum-list[i], count - 1);
-                const reslist = res.map(l => ([list[i], ...l]))
-                const res2 = searchPartners(remList, sum, count);
-                result.push(...reslist, ...res2);
-            }
-
-            dupCheck[list[i]] = true;
-        } 
-        // console.log('result----->')
-        //console.log(result)
-        return result;
-    }
-    
-    return searchPartners(nums, 0, 3);
-    
+    return [];
 };
 
-// console.log(threeSum([-1,0,1,2,-1,-4]));
-console.log(threeSum1([-1,0,1,2,-1,-4]));
+console.log(threeSum2([-1,0,1,2,-1,-4,-2,-3,3,0,4]));
+
+
+/*
+
+[12:29 pm] Harshith Thota
+class Solution {
+public:
+vector<vector<int>> threeSum(vector<int>& nums) {
+vector<vector<int>> res;
+map<string, int> freq;
+int index, index1, index2, sum, prevVal = INT_MIN;
+sort(nums.begin(), nums.end());
+for(index=0;index<nums.size();index++) {
+index1 = index + 1;
+index2 = nums.size() - 1;
+if (prevVal == nums[index]) continue;
+while(index1 < index2) {
+sum = nums[index] + nums[index1] + nums[index2];
+if (sum == 0) {
+vector<int> arr;
+arr.push_back(nums[index]);
+arr.push_back(nums[index1]);
+arr.push_back(nums[index2]);
+string result = to_string(arr[0]) + to_string(arr[1]) + to_string(arr[2]);
+auto it = freq.find(result);
+if (it == freq.end()) {
+res.push_back(arr);
+freq.insert(pair<string, int>(result, 1));
+}
+index1++;
+index2--;
+}
+else if (sum > 0) {
+index2--;
+} else {
+index1++;
+}
+}
+prevVal = nums[index];
+}
+return res;
+}
+};
+
+
+*/
