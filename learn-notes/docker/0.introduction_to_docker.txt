@@ -1,0 +1,121 @@
+=> Docker -> packages all application and its dependancies, 
+=> runs in a loosely isolated environment called --> Container
+=> container is built from a blueprint --> Docker Image
+=> Docker container is built using linux kernel
+=> image is built using multiple layers for re-usability of the image
+=> Docker Registry --> repository of images
+=> Docker runs a server --> Docker Daemon 
+    - which can pull image, build image and run containers
+=> Docker Daemon is accessed by --> Docker Client (CLI)
+=> Docker Client can interact with Docker Daemon in the local machine or remote
+
+=> In short, how a container is useful
+    1. Isolates all environment variables which might clash with other apps
+    2. Isolates app dependancies which might clash with other apps
+    3. More or less a container ensures the same working setup in all platforms
+    4. privatizes the app and its internal networking from host machine
+
+=> use below commands for useful help
+docker --help
+docker image --help
+docker volume --help
+..
+
+---------- commands ----------------------------------------
+========> pull images ===> run containers 
+========> create and share images ===> and work with shared data volumes.
+----------------------------------------------------------------
+
+docker run [OPTIONS] IMAGE [COMMAND] [ARG…]
+/* for help -> docker run --help
+
+docker run <image>:<version>
+/* runs a container from image - first it will look for local image - otherwise pulls
+from the remote registry and add it to local registry and runs the container
+if version not specified it takes "latest" as default
+container will be called by some unique name, also there is an unique ID
+*/
+
+docker pull <image>
+/* pulls image */
+
+docker run -it <image> bash
+/* runs the container and also provides a bash interface to interact with the container
+Container is like a tiny virtual linux machine
+*/
+
+docker ps
+/* list of all running containers */
+
+docker ps -a
+/* list of all running and exited containers */
+
+docker exec -it <container id/name> bash
+/* jump into a running containers bash */
+
+docker start <container_id>
+/* start a container with its unique ID. we can run an exited container back again */
+
+docker stop <container_id>
+/* stops the container */
+
+docker kill <container_id|name>
+/* stops and removes the container */
+
+docker rename <container_id|name> <new_name>
+/* rename the container, name or id can be used in most of the commands */
+
+docker rm -f <container_id|name>
+/* Forcefully delete the container. make sure it is not running */
+
+docker run --name <name_of_container> -it <image> bash
+/* run an image with name of the container and interact with shell */
+
+docker commit -m "<message>" <container_id|name> <new_image_name>:<version>
+/* commit your container locally
+ ==> create an image and its version locally from the container */
+
+docker images
+/* list of all images in the local registry */
+
+docker image rm <image_id>
+/* remove an image */
+
+docker tag <image_id> <docker_hub_username>/<tag_name>:<version>
+/* locally tag the image with a new name and version. This will appear in images */
+
+docker push <docker_hub_username>/<tag_name>:<version>
+/* push the image to Docker remote repository. It will be publically accessible */
+
+docker run -it -v <absolute_path>:<folder path or new folder name> <image_id>:<version>
+/* runs an image, binds given host machine's filesystem with container and we can access it
+inside container and modify it (will update on both ends). This is not good, since
+we deploy the container on a different machine and path may not be consistent */
+
+docker run -it -v <absolute_path>:<folder path in container>:ro <image_id>:<version>
+/* same as above with readonly mode. container cant modify anything */
+
+docker volume create <volume_name>
+/* create a volume. It is a shared filesystem created by host (Docker Daemon) 
+and accessible across containers */
+
+docker volume ls
+/* list all volumes */
+
+docker volume inspect <volume_name>
+/* more info about the volume. actual path in the host etc */
+
+docker run -it -v <volume_name>:<path_in_container> <image_id>
+/* runs an image with volume mounted in container. It can access the shared files */
+
+docker system df
+/* To see the memory (space) consumption by docker. Important when running out of memory */
+
+docker system prune
+/* remove stopped containers and other unused memory and cleanup */
+
+docker container prune, docker images prune, docker network prune
+/* cleanup memory at granular level */
+
+docker inspect <Container/Image/Network ID>
+/* very useful command to inspect various stuffs */

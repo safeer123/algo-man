@@ -1,0 +1,86 @@
+# This sample docker app is from the example below
+# git clone https://github.com/venky8283/Docker.git
+# git checkout d469419582ee877067f6d449c9691ad16e5f3365
+
+############# BASIC syntax of a Dockerfile ###############
+# Name this file as Dockerfile with no extension
+# Keep it in the root dir
+
+# base image from which we want to run the container
+# this means we have access to python3 inside the container
+# we can use commands like "python3 --version"
+FROM python:3.9
+
+# Setting up Docker environment
+# create a /code dir in the root of the container
+# this will be our current working dir
+WORKDIR /code
+
+# Export env variables
+ENV FLASK_APP app.py
+ENV FLASK_RUN_HOST 0.0.0.0
+
+
+# Copy requirement file from current dir to the container's /code dir
+# We created /code above
+COPY requirements.txt requirements.txt
+
+# any setup commands here, like installing dependancies, etc
+# this is expected to happen before the application run commands
+RUN pip3 install -r requirements.txt
+
+# Copy application source code to the container working dir
+COPY . .
+
+# Finally specify a command (instruction to run the app) 
+# it executes whenever we run a new container
+# => If every setup is in place, then how to run the application
+# if there are multiple CMD then only the last one picked
+CMD ["flask", "run"]
+
+# in case we want to configure the container as an executable
+ENTRYPOINT ["flask", "run"]
+
+
+############### HOW TO BUILD AN IMAGE FROM THIS DOCKERFILE ############
+
+# From the directory where Dockerfile resides, run the following 
+# command to build an image
+# specify a name and version, put the "." at the end, to refer to current dir
+docker build -t flask_app:1.0 .
+
+# now when we run the image, we can override the CMD by COMMAND as below
+docker run [OPTIONS] IMAGE [COMMAND] [ARG…]
+
+# the above app runs on a port 5000 by default
+# For the host machine to access the container's port use -p and <host_port>:<container_port>
+# the above app is available at localhost:3021
+# this is called port mapping
+docker run -p 3021:5000 my_flask_app:1.0
+
+# While development, building and updating the image for every small incremental change 
+# can be a problem. Now we can bind the host files with container files using -v
+# Whenever we change host code files the container files are in sync
+mydir=`pwd`
+docker run -it -v $mydir:/code -p 3021:5000 my_flask_app:1.0
+
+# when we run a container it can be in interactive mode and tty terminal mode
+# this might block the current terminal window.
+# instead we can run it in a detached mode called daemon mode using -d
+docker run -d -v <abs_path_to_code_directory>:/code -p 5000:5000 flask_app:1.0
+
+
+# if there is a detached container running in the background we can attach it back
+docker attach <container id>
+
+# running in attached mode has a downside -> if we use Ctrl+C and go to host shell,
+# it will stop the container. so better idea is to get to container shell
+docker exec -it <container_id> bash
+
+# now we can also get the logs of the detached container
+# docker logs --help to see all the options
+docker logs [OPTIONS] container
+
+# you might see all logs, but it is not giving real-time updates
+# add -f to make it real-time logs
+docker logs -f container
