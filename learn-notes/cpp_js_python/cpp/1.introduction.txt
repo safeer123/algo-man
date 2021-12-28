@@ -1,0 +1,43 @@
+
+High-level Languages -> languages won't make developer worry about the computer infra (much)
+Examples: C, C++, Pascal, Java, JavaScript, Perl
+
+Two Types: 
+Compiler language (C, C++, Pascal) and 
+Interpreter language (JavaScript, Perl)
+
+1. Compiler
+
+SOURCE_CODE --> COMPILER --> EXECUTABLE
+EXECUTABLE --> HARDWARE --> PROGRAM_RESULTS
+
+2. Interpreter
+
+SOURCE_CODE --> INTERPRETER --> HARDWARE --> PROGRAM_RESULTS
+
+Interpreting is expensive, but makes flexible program, but slower
+
+-------------------- C++ ----------------------------
+
+C++11 is the new baseline
+
+Q: What is C++ good at?
+
+C++ excels in situations where high performance and 
+precise control over memory and other resources is needed. 
+Here are a few common types of applications that most likely would be written in C++:
+
+1. Video games
+2. Real-time systems (e.g. for transportation, manufacturing, etc…)
+3. High-performance financial applications (e.g. high frequency trading)
+4. Graphical applications and simulations
+5. Productivity / office applications
+6. Embedded software
+7. Audio and video processing
+8. Artificial intelligence and neural networks
+
+-------> steps to run a c++ code
+Each ".cpp" (source) file will compile ---> curresponding ".o" (object file)
+A linker takes all object files ---> one executable file
+linker also takes the library files for linking (pre-compiled files)
+linker resolves dependancies, checks function definition vs usage
