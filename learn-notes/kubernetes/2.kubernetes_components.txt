@@ -1,0 +1,31 @@
+-----------> Kubernetes Components -------------------------------
+
+When you deploy Kubernetes, you get a cluster.
+
+Kubernetes cluster consists of a set of worker machines --> called nodes
+nodes --> run containerized applications (inside Pods). 
+Every cluster has at least one worker node.
+
+A control plane --> manages the worker nodes, desicion maker (The brain)
+Pods --> A set of running containers
+
+
+---> components in Control Plane
+1. kube-apiserver => Exposes api
+2. etcd => key-value store for cluster data, highly available+consistent
+3. kube-scheduler => watches pods, assigns nodes to newly created Pods
+4. kube-cotroller-manager
+5. cluster-controller-manager
+
+---> Components inside a node
+1. kubelet => agent watching the pods and Containers
+2. kube-proxy => network proxy for the node machine
+3. container runtime => Eg:- Docker, containerd, CRI-O
+
+---> Kubernetes Addons (Integrations with external tools)
+
+cluster DNS
+Web UI (Dashboard)
+container resource monitoring
+cluster level logging
+

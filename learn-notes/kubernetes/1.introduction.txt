@@ -1,0 +1,42 @@
+Kubernetes is a portable, extensible, open-source platform 
+for managing containerized workloads and services, 
+that facilitates both declarative configuration and automation
+
+Google open-sourced the Kubernetes project in 2014
+
+------> Evolution of deployments
+
+// old tradition
+Hardware -> OS -> [App1, App2]
+
+// virtualized deployments
+// Each VM will work as a seperate OS on a virtualized hardware
+// VMs eat up lots of resources
+Hardware -> OS -> Hypervisor -> {VM_1 -> [App1, App2], VM_2 -> [App3] }
+
+// Container deployments
+// Containers are isolated but shares the OS, they are lightweight
+Hardware -> OS -> Container Runtime -> { Container1, Container2 }
+
+-------> Upside with container deployments
+
+1. Dev and Ops are decoupled -> developer releases an image, devOps team can deploy it
+2. Easy to create build images and versions
+3. Best resourse utilisation and isolation
+4. Loosely coupled tiny apps - health monitoring at app level
+5. Cloud-friendly
+
+
+----------> How Kubernetes can help us ----------
+
+Kubernetes provides you with a framework to run distributed systems resiliently
+resilient => withstand containers/servers going down, and spinning up new ones
+
+----> What all Kubernetes offers
+1. load balancing on containers - health check and load distribution
+2. service recovery
+3. storage orchestration - it can automatically allocate and mount new storages
+4. automated rollouts or rollbacks
+5. Self-healing - restarts/replaces containers on failure
+6. Secrets and configurations are well managed - API keys or env variables can be updated
+    even after the deployment, and they are secure

@@ -1,0 +1,29 @@
+There are some terminologies used in Networking. Some of them are:
+
+1.  Hostname: name of the machine to identify it in a network.
+
+2.  ping: ping <hostname>/<ip> for checking the connectivity of machine 
+    from the machine from which the command is run.
+
+3.  subnet: This is a small isolated part of a network. 
+    It is like creating boundaries to a particular part in the same network.
+
+4.  DNS: This is like a phone directory. All the reachable hosts are mapped 
+    in this domain name service/system using IP and hostname so that you can either 
+    reach them by name or IP.
+
+5.  /etc/hosts: This is the important file. This file has all the reachable 
+    hosts with their IP addresses. We will frequently refer to this file.
+
+    -------------------------------------------------------- docker commands --------
+
+    docker network ls
+    /* lists all networks. There are 3 networks. none, host and bridge.
+    all containers are in the bridge network (Docker0 network) */
+
+    docker inspect <NETWORK ID>
+    /* details on the network. we can see the running containers in the network */
+
+    docker run --link <container>:<host_name_to_connect> -it <my_image>
+    /* how to access a different container throught the published ports, mapped to a 
+    hostname. This will reflect in /etc/hosts file */

@@ -36,5 +36,22 @@ console.log(fruitBasket);
 // ["apple", "banana", "orange"]
 
 
+// --------------------- copy and concat -------------------
+
+const arrABCDE = ['A', 'B', 'C'].concat(['D', 'E']);
+console.log(arrABCDE);
+
+// array copy in ES5 using concat
+const arrOriginal = [1,2,3];
+const arrCopy = [].concat(arrOriginal);
+arrCopy.push(4);
+console.log(arrOriginal, arrCopy);
+
+// copy using spread operator
+const copied = [...arrOriginal];
+
+
+
+
 
 

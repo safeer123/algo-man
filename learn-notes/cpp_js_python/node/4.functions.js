@@ -102,7 +102,7 @@ var myCar = {
     getTypeFuncion_Fixed: function () {
         const thisParent = this;
         return function () {
-            return thisParent.type; // this -> global object
+            return thisParent.type; // this -> myCar object
         }
     }
 };

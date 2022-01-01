@@ -1,0 +1,38 @@
+-------- SET UP DOCKER CONTAINER -------------------------------
+
+docker pull mysql/mysql-server:5.7
+
+docker run --name mysql_db -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=backend -e MYSQL_USER=testuser -e MYSQL_PASSWORD=admin123 mysql/mysql-server:5.7
+
+docker exec -it mysql_db bash
+
+----------------- you connected to mysql container bash now ------------------
+
+mysql -u root -proot
+
+SHOW DATABASES;
+CREATE DATABASE db01;
+CREATE TABLE cats 
+(
+  id              INT unsigned NOT NULL AUTO_INCREMENT, # Unique ID for the record
+  name            VARCHAR(150) NOT NULL,                # Name of the cat
+  owner           VARCHAR(150) NOT NULL,                # Owner of the cat
+  birth           DATE NOT NULL,                        # Birthday of the cat
+  PRIMARY KEY     (id)                                  # Make the id the primary key
+);
+SHOW TABLES;
+DESCRIBE cats;
+INSERT INTO cats ( name, owner, birth) VALUES
+  ( 'Sandy', 'Lennon', '2015-01-03' ),
+  ( 'Cookie', 'Casey', '2013-11-13' ),
+  ( 'Charlie', 'River', '2016-05-21' );
+SELECT * FROM cats;
+SELECT name FROM cats WHERE owner = 'Casey';
+DELETE FROM cats WHERE name='Cookie';
+ALTER TABLE cats ADD gender CHAR(1) AFTER name;
+SHOW CREATE TABLE cats\G
+ALTER TABLE cats DROP gender;
+
+// grand access on a database, to a user with all privilages
+grant all privileges on db01.* to testuser@'%' identified by 'admin123';
+grant all privileges on *.* to testuser@'%' identified by 'admin123';
